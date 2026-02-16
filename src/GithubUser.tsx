@@ -41,3 +41,47 @@ export function GithubUser({ username }: GithubUserProps) {
     </>
   );
 }
+
+// Soluzione
+
+// Tipizzazione incompleta: Il tipo User dovrebbe includere tutte le proprietà necessarie alla visualizzazione richiesta, tra cui "login", "name" e "avatar_url". Attualmente la proprietà "login" è assente e viene richiesta dall'esercizio. Si consiglia di modificare la tipizzazione in modo più completo:
+// interface User {
+//   login: string;
+//   name: string;
+//   avatar_url: string;
+//   bio: string;
+// }
+// Gestione stato di caricamento ed errore: È opportuno aggiungere gestione per stato di caricamento (loading) ed errore (error) per migliorare l'usabilità e la robustezza del componente. Questo consente di fornire feedback all'utente durante l’attesa della risposta o in caso di errore:
+// const [loading, setLoading] = useState<boolean>(true);
+// const [error, setError] = useState<string | null>(null);
+
+// useEffect(() => {
+//   setLoading(true);
+//   setError(null);
+//   fetch(`https://api.github.com/users/${username}`)
+//     .then((response) => {
+//       if (!response.ok) throw new Error(response.statusText);
+//       return response.json();
+//     })
+//     .then((json) => {
+//       setUser(json);
+//       setLoading(false);
+//     })
+//     .catch((err) => {
+//       setError(err.message);
+//       setLoading(false);
+//     });
+// }, [username]);
+// Restituire i feedback nel render:
+
+// if (loading) return <p>Caricamento utente...</p>;
+// if (error) return <p>Errore: {error}</p>;
+// Visualizzazione delle informazioni richieste: Il campo "login" non viene renderizzato. Secondo la traccia, vanno mostrati nome, login e avatar. Consigliato anche l’uso di un testo alternativo più descrittivo sull’avatar:
+// return (
+//   <>
+//     <h2>{user.name}</h2>
+//     <p>{user.login}</p>
+//     <p>{user.bio}</p>
+//     <img src={user.avatar_url} alt={`Avatar dell'utente ${user.login}`} />
+//   </>
+// );
